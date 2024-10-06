@@ -50,7 +50,6 @@ export class Session {
 	 * Set the session cookie in the response.
 	 */
 	public static setCookie(cookies: Cookies, cookie: Cookie) {
-		console.log('cookie', cookie)
 		cookies.set(cookie.name, cookie.value, {
 			path: '.',
 			...cookie.attributes
