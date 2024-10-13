@@ -5,6 +5,7 @@ import { loginValidator } from '$lib/server/validation'
 import { Password, Session } from '$lib/server/auth'
 
 import type { PageServerLoad, Actions } from './$types'
+import { localUrl } from '$lib/server/validation/utils'
 
 export const load = (async () => {
 	return {}
@@ -37,20 +38,9 @@ export const actions = {
 		}
 
 		// TODO: Check security implications of redirecting to arbitrary URLs
-		if (url.searchParams.has('redirectTo')) {
-			const redirectTo = url.searchParams.get('redirectTo') || '/'
+		const redirectTo = url.searchParams.get('redirectTo') || '/'
+		const safeRedirectUrl = localUrl(redirectTo, url.origin)
 
-			try {
-				// Only use the pathname to avoid malicious redirects
-				const pathName = new URL(redirectTo)
-				const redirectUrl = new URL(pathName.pathname, url.origin)
-
-				return redirect(302, redirectUrl)
-			} catch {
-				return redirect(302, '/')
-			}
-		}
-
-		return redirect(302, '/')
+		return redirect(302, safeRedirectUrl)
 	}
 } satisfies Actions

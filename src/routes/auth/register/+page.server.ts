@@ -27,10 +27,10 @@ export const actions = {
 				.returning({ id: schema.userTable.id })
 
 			await Session.create(user.id, cookies)
-
-			return redirect(302, '/')
 		} catch (error) {
 			return fail(500, { error })
 		}
+
+		return redirect(302, '/')
 	}
 } satisfies Actions
