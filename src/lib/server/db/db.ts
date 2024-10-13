@@ -1,11 +1,12 @@
-import { DB_DATABASE } from '$env/static/private'
+import { DATABASE_URL } from '$env/static/private'
 import { defineValidationRules } from '$lib/server/validation/rules'
-import { dev } from '$app/environment'
-import { drizzle } from 'drizzle-orm/better-sqlite3'
-import Database from 'better-sqlite3'
+import { drizzle } from 'drizzle-orm/node-postgres'
+import pg from 'pg'
 
-const sqlite = new Database(DB_DATABASE)
-const db = drizzle(sqlite, { logger: dev })
+const pool = new pg.Pool({
+  connectionString: DATABASE_URL
+})
+const db = drizzle(pool)
 
 defineValidationRules(db)
 

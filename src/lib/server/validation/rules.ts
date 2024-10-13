@@ -1,12 +1,12 @@
 import vine, { VineNumber, VineString } from '@vinejs/vine'
 
-import type { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3'
+import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 
 /**
  * Defines the "unique" and "exists" validation rules with
  * VineJS.
  */
-export function defineValidationRules(db: BetterSQLite3Database) {
+export function defineValidationRules(db: NodePgDatabase) {
 	const uniqueRule = vine.createRule<Parameters<VineString['unique'] | VineNumber['unique']>[0]>(
 		async (value, checker, field) => {
 			if (!field.isValid) {

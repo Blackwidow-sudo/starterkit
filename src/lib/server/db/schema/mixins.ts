@@ -1,9 +1,12 @@
-import { sql } from 'drizzle-orm'
-import { text } from 'drizzle-orm/sqlite-core'
+import { timestamp } from 'drizzle-orm/pg-core'
 
-const now = () => sql`(datetime('now'))`
-
+// https://github.com/drizzle-team/drizzle-orm/issues/956
 export const timeStampMixin = {
-	createdAt: text('created_at').notNull().$defaultFn(now),
-	updatedAt: text('updated_at').notNull().$defaultFn(now).$onUpdateFn(now)
+	createdAt: timestamp('created_at', { mode: 'date', withTimezone: true })
+		.notNull()
+		.defaultNow(),
+	updatedAt: timestamp('updated_at', { mode: 'date', withTimezone: true })
+		.notNull()
+		.defaultNow()
+		.$onUpdateFn(() => new Date())
 }

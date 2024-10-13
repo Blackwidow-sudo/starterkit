@@ -1,5 +1,5 @@
 import type { FieldContext } from '@vinejs/vine/types'
-import type { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3'
+import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 
 /**
  * Extending VineJS schema types
@@ -14,7 +14,7 @@ declare module '@vinejs/vine' {
 		 * - The callback must return `false`, if the value is not unique (already exists).
 		 */
 		unique(
-			callback: (db: BetterSQLite3Database, value: string, field: FieldContext) => Promise<boolean>
+			callback: (db: NodePgDatabase, value: string, field: FieldContext) => Promise<boolean>
 		): this
 
 		/**
@@ -25,7 +25,7 @@ declare module '@vinejs/vine' {
 		 * - The callback must return `true`, if the value does not exist.
 		 */
 		exists(
-			callback: (db: BetterSQLite3Database, value: string, field: FieldContext) => Promise<boolean>
+			callback: (db: NodePgDatabase, value: string, field: FieldContext) => Promise<boolean>
 		): this
 	}
 
