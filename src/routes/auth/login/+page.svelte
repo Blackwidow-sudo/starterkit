@@ -1,5 +1,9 @@
 <script lang="ts">
+	import { Button } from '$lib/components/ui/button'
 	import { enhance } from '$app/forms'
+	import { Input } from '$lib/components/ui/input'
+	import { Label } from '$lib/components/ui/label'
+	import * as Card from '$lib/components/ui/card'
 
 	import type { PageData, ActionData } from './$types'
 
@@ -7,26 +11,42 @@
 	export let form: ActionData
 </script>
 
-<h1 class="text-2xl font-semibold text-center">Sign in</h1>
-<form
-	class="flex flex-col max-w-md gap-2 p-4 mx-auto rounded-md dark:bg-slate-700 bg-slate-200"
-	method="post"
-	use:enhance>
-	<label for="email">Email</label>
-	<input
-		class="px-4 py-2 text-black border border-gray-400 rounded"
-		type="email"
-		name="email"
-		id="email"
-		placeholder="Enter your email..."
-		required />
-	<label for="password">Password</label>
-	<input
-		class="px-4 py-2 text-black border border-gray-400 rounded"
-		type="password"
-		name="password"
-		id="password"
-		placeholder="Enter your password..."
-		required />
-	<button class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">Continue</button>
-</form>
+<div class="p-4">
+	<Card.Root class="max-w-md mx-auto">
+		<Card.Header>
+			<Card.Title>Log In</Card.Title>
+		</Card.Header>
+		<Card.Content>
+			<form
+				id="login-form"
+				class="flex flex-col gap-4"
+				method="post"
+				use:enhance>
+				<div class="flex flex-col space-y-1.5">
+					<Label for="email">Email</Label>
+					<Input
+						id="email"
+						name="email"
+						type="email"
+						placeholder="Enter your email..."
+						required />
+				</div>
+				<div class="flex flex-col space-y-1.5">
+					<Label for="password">Password</Label>
+					<Input
+						id="password"
+						name="password"
+						type="password"
+						placeholder="Enter your password..."
+						required />
+				</div>
+			</form>
+		</Card.Content>
+		<Card.Footer>
+			<Button
+				class="mx-auto"
+				type="submit"
+				form="login-form">Log In</Button>
+		</Card.Footer>
+	</Card.Root>
+</div>
