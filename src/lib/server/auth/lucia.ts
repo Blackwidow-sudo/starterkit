@@ -15,13 +15,15 @@ export const lucia = new Lucia(adapter, {
 	getUserAttributes: attrs => ({
 		// attributes has the type of DatabaseUserAttributes
 		username: attrs.username,
-		email: attrs.email
+		email: attrs.email,
+		createdAt: attrs.createdAt
 	})
 })
 
 interface DatabaseUserAttributes {
 	username: string
 	email: string
+	createdAt: Date
 }
 
 declare module 'lucia' {

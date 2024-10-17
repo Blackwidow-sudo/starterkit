@@ -1,17 +1,26 @@
 <script lang="ts">
-	import type { PageData, ActionData } from './$types'
+	import * as Card from '$lib/components/ui/card'
+	import type { PageData } from './$types'
 
 	export let data: PageData
-	export let form: ActionData
 
 	const { user } = data
 </script>
 
-<h1 class="text-2xl font-semibold text-center">My profile</h1>
-{#if user}
-	<ul>
-		{#each Object.entries(user) as [key, val]}
-			<li>{key}: {val}</li>
-		{/each}
-	</ul>
-{/if}
+<div class="p-4">
+	{#if user}
+		<Card.Root class="max-w-lg mx-auto">
+			<Card.Header>
+				<Card.Title>
+					{user.username}
+				</Card.Title>
+				<Card.Description>
+					Account created at: {user.createdAt.toLocaleString()}
+				</Card.Description>
+			</Card.Header>
+			<Card.Content>
+				<p>Email: {user.email}</p>
+			</Card.Content>
+		</Card.Root>
+	{/if}
+</div>
