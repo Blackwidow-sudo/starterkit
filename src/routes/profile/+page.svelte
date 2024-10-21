@@ -7,9 +7,10 @@
 	import * as Accordion from '$lib/components/ui/accordion'
 	import * as Card from '$lib/components/ui/card'
 
-	import type { PageData } from './$types'
+	import type { ActionData, PageData } from './$types'
 
 	export let data: PageData
+	export let form: ActionData
 
 	const { user } = data
 </script>
@@ -33,20 +34,30 @@
 								method="post"
 								use:enhance>
 								<div class="flex flex-col gap-2">
-									<Label for="password">Password</Label>
+									<Label for="password">Current password</Label>
 									<Input
 										id="password"
 										name="password"
 										type="password"
-										placeholder="Enter your password..."
+										placeholder="Enter your current password..."
 										minlength={8}
 										required />
 								</div>
 								<div class="flex flex-col gap-2">
-									<Label for="password_confirmation">Confirm password</Label>
+									<Label for="newPassword">New password</Label>
 									<Input
-										id="password_confirmation"
-										name="password_confirmation"
+										id="newPassword"
+										name="newPassword"
+										type="password"
+										placeholder="Enter your new password..."
+										minlength={8}
+										required />
+								</div>
+								<div class="flex flex-col gap-2">
+									<Label for="newPassword_confirmation">Confirm new password</Label>
+									<Input
+										id="newPassword_confirmation"
+										name="newPassword_confirmation"
 										type="password"
 										placeholder="Confirm new password..."
 										minlength={8}

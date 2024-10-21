@@ -1,7 +1,7 @@
+import { createUserValidator } from '$lib/server/validation'
 import { db, schema } from '$lib/server/db'
 import { fail, redirect } from '@sveltejs/kit'
 import { Password, Session } from '$lib/server/auth'
-import { registerValidator } from '$lib/server/validation'
 
 import type { PageServerLoad, Actions } from './$types'
 
@@ -12,7 +12,7 @@ export const load = (async () => {
 export const actions = {
 	default: async ({ request, cookies }) => {
 		const payload = Object.fromEntries(await request.formData())
-		const [err, data] = await registerValidator.tryValidate(payload)
+		const [err, data] = await createUserValidator.tryValidate(payload)
 
 		if (err) {
 			return fail(400, err.messages)

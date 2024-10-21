@@ -20,5 +20,5 @@ export const sessions = pgTable('sessions', {
 	expiresAt: timestamp('expires_at', { withTimezone: true, mode: 'date' }).notNull()
 })
 
-export type User = typeof users.$inferSelect // return type when queried
-export type InsertUser = typeof users.$inferInsert // insert type
+export type User = typeof users.$inferSelect
+export type InsertUser = typeof users.$inferInsert
