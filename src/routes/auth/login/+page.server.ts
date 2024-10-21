@@ -2,6 +2,7 @@ import { db, schema } from '$lib/server/db'
 import { eq } from 'drizzle-orm'
 import { fail, redirect } from '@sveltejs/kit'
 import { loginValidator } from '$lib/server/validation'
+import { rateLimiter } from '$lib/server/ratelimiter'
 import { Password, Session } from '$lib/server/auth'
 
 import type { PageServerLoad, Actions } from './$types'
@@ -21,10 +22,13 @@ export const actions = {
 		}
 
 		try {
-			const [user] = await db
-				.select({ id: schema.userTable.id, passwordHash: schema.userTable.passwordHash })
-				.from(schema.userTable)
-				.where(eq(schema.userTable.email, data.email))
+			const user = await db.query.users.findFirst({
+				where: eq(schema.users.email, data.email)
+			})
+
+			if (!user) {
+				return fail(400, { credentials: 'Invalid credentials' })
+			}
 
 			const validPassword = await Password.verify(user.passwordHash, data.password)
 

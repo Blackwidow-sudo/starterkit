@@ -3,7 +3,7 @@ import { dev } from '$app/environment'
 import { DrizzlePostgreSQLAdapter } from '@lucia-auth/adapter-drizzle'
 import { Lucia } from 'lucia'
 
-const adapter = new DrizzlePostgreSQLAdapter(db, schema.sessionTable, schema.userTable)
+const adapter = new DrizzlePostgreSQLAdapter(db, schema.sessions, schema.users)
 
 export const lucia = new Lucia(adapter, {
 	sessionCookie: {
@@ -16,6 +16,7 @@ export const lucia = new Lucia(adapter, {
 		// attributes has the type of DatabaseUserAttributes
 		username: attrs.username,
 		email: attrs.email,
+		isAdmin: attrs.isAdmin,
 		createdAt: attrs.createdAt
 	})
 })
@@ -23,6 +24,7 @@ export const lucia = new Lucia(adapter, {
 interface DatabaseUserAttributes {
 	username: string
 	email: string
+	isAdmin: boolean
 	createdAt: Date
 }
 

@@ -1,6 +1,6 @@
-import vine from '@vinejs/vine'
-import { schema } from '$lib/server/db'
 import { eq } from 'drizzle-orm'
+import { schema } from '$lib/server/db'
+import vine from '@vinejs/vine'
 
 export const registerValidator = vine.compile(
 	vine.object({
@@ -9,10 +9,8 @@ export const registerValidator = vine.compile(
 			.string()
 			.email()
 			.unique(async (db, value) => {
-				const [user] = await db
-					.select()
-					.from(schema.userTable)
-					.where(eq(schema.userTable.email, value))
+				// TODO: use db.query.users.findFirst instead
+				const [user] = await db.select().from(schema.users).where(eq(schema.users.email, value))
 				return !user
 			}),
 		password: vine.string().minLength(8).confirmed()
@@ -25,19 +23,10 @@ export const loginValidator = vine.compile(
 			.string()
 			.email()
 			.exists(async (db, value) => {
-				const [user] = await db
-					.select()
-					.from(schema.userTable)
-					.where(eq(schema.userTable.email, value))
+				// TODO: use db.query.users.findFirst instead
+				const [user] = await db.select().from(schema.users).where(eq(schema.users.email, value))
 				return !!user
 			}),
 		password: vine.string().minLength(8)
-	})
-)
-
-export const updateUserValidator = vine.compile(
-	vine.object({
-		user_id: vine.number(),
-		username: vine.string().minLength(3).maxLength(50)
 	})
 )

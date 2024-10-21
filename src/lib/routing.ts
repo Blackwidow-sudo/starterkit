@@ -1,7 +1,7 @@
 export type Route = {
 	name: string
 	path: string
-	public: boolean
+	public?: boolean
 }
 
 export const routes: Route[] = [
@@ -27,7 +27,7 @@ export const routes: Route[] = [
 	},
 	{
 		name: 'Profile',
-		path: '/auth/profile',
+		path: '/profile',
 		public: false
 	}
 ]

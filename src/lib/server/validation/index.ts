@@ -35,3 +35,4 @@ declare module '@vinejs/vine' {
 }
 
 export * from './auth'
+export * from './user'

@@ -22,9 +22,9 @@ export const actions = {
 
 		try {
 			const [user] = await db
-				.insert(schema.userTable)
+				.insert(schema.users)
 				.values({ ...data, passwordHash })
-				.returning({ id: schema.userTable.id })
+				.returning({ id: schema.users.id })
 
 			await Session.create(user.id, cookies)
 		} catch (error) {

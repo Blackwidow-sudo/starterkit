@@ -5,6 +5,7 @@
 	import { ModeWatcher, toggleMode, mode } from 'mode-watcher'
 	import { page } from '$app/stores'
 	import { routes as allRoutes } from '$lib/routing'
+	import { Toaster } from '$lib/components/ui/sonner'
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu'
 	import * as Sheet from '$lib/components/ui/sheet'
 	import * as Tooltip from '$lib/components/ui/tooltip'
@@ -24,7 +25,7 @@
 	$: authenticated = !!data.user
 
 	const routes = allRoutes.filter(({ path }) => {
-		const excluded = ['/auth/login', '/auth/register', '/auth/profile']
+		const excluded = ['/auth/login', '/auth/register', '/profile']
 
 		return !excluded.includes(path)
 	})
@@ -35,7 +36,6 @@
 </script>
 
 <div class="flex flex-col w-full h-full overflow-hidden bg-muted/40">
-	<ModeWatcher />
 	<header
 		class="flex items-center justify-between flex-none gap-4 px-4 py-2 border-b lg:px-6 lg:h-16 h-14 bg-background">
 		<div class="flex gap-6">
@@ -162,4 +162,9 @@
 			</footer>
 		</div>
 	</div>
+	<ModeWatcher />
+	<Toaster
+		expand
+		position="bottom-center"
+		richColors />
 </div>

@@ -6,7 +6,7 @@ import { routes } from '$lib/routing'
 /**
  * Validate the session and set the user and session in the event locals
  */
-export const handleSession: Handle = async ({ event, resolve }) => {
+const handleSession: Handle = async ({ event, resolve }) => {
 	const sessionId = event.cookies.get(lucia.sessionCookieName)
 
 	if (!sessionId) {
@@ -25,14 +25,16 @@ export const handleSession: Handle = async ({ event, resolve }) => {
 }
 
 /**
- * Redirect users that are not logged in to the login page
+ * Authorize the user
  */
-export const handleProtectedRoutes: Handle = async ({ event, resolve }) => {
+const handleAuthorization: Handle = async ({ event, resolve }) => {
 	const { user } = event.locals
 	const route = routes.find(({ path }) => path === event.url.pathname)
 
+	// Redirect to login if the requested page is not public
 	if (!route?.public && !user) {
 		const login = new URL('/auth/login', event.url.origin)
+
 		login.searchParams.set('redirectTo', event.url.toString())
 
 		return redirect(302, login)
@@ -41,4 +43,4 @@ export const handleProtectedRoutes: Handle = async ({ event, resolve }) => {
 	return resolve(event)
 }
 
-export const handle = sequence(handleSession, handleProtectedRoutes)
+export const handle = sequence(handleSession, handleAuthorization)
